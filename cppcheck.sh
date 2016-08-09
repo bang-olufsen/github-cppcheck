@@ -1,6 +1,9 @@
 #!/bin/bash
 set -e
 
+# CPPCHECK_TOKEN is a GitHub private access token configured for repo:status scope
+# DROPBOX_TOKEN is an access token for the Dropbox API
+
 CPPCHECK_FILES=$*
 CPPCHECK_ARGS="--enable=warning --suppressions-list=cppcheck.txt --template='[{file}:{line}]:({severity}),{id},{message}' --force -q -j `nproc`"
 
