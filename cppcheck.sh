@@ -5,7 +5,8 @@ set -e
 # DROPBOX_TOKEN is an access token for the Dropbox API
 
 CPPCHECK_FILES=$*
-CPPCHECK_ARGS="--enable=warning --suppressions-list=cppcheck.txt --template='[{file}:{line}]:({severity}),{id},{message}' --force -q -j `nproc`"
+CPPCHECK_ARGS=${CPPCHECK_ARGS:="--enable=warning --suppressions-list=cppcheck.txt --template='[{file}:{line}]:({severity}),{id},{message}' --force -q -j `nproc`"}
+CPPCHECK_TMP=${CPPCHECK_TMP:=/tmp}
 
 status () {
   if [ "$SHIPPABLE" = true ]; then
@@ -21,13 +22,13 @@ status () {
       COLOR=red
       if [ $ERRORS -eq 0 ]; then
         COLOR=yellow
-        if [ $WARNINGS -lt 10 ]; then
+        if [ $WARNINGS -eq 0 ]; then
           COLOR=brightgreen
         fi
       fi
       
       BUGS=`expr $ERRORS + $WARNINGS`
-      wget -O /tmp/cppcheck_${REPO_NAME}_${BRANCH}.svg https://img.shields.io/badge/cppcheck-"$BUGS"_bugs-$COLOR.svg 1>/dev/null 2>&1
+      wget -O $CPPCHECK_TMP/cppcheck_${REPO_NAME}_${BRANCH}.svg https://img.shields.io/badge/cppcheck-"$BUGS"_bugs-$COLOR.svg 1>/dev/null 2>&1
       curl -H "Authorization: Bearer $DROPBOX_TOKEN" https://api-content.dropbox.com/1/files_put/auto/ -T /tmp/cppcheck_${REPO_NAME}_${BRANCH}.svg 1>/dev/null 2>&1
     fi
   fi
@@ -39,17 +40,18 @@ if [ "$1" = "diff" ]; then
   CPPCHECK_FILES=`git diff --name-only origin/develop | grep -e '\.h$' -e '\hpp$' -e '\.c$' -e '\.cc$' -e '\cpp$' -e '\.cxx$' | xargs`
 fi
 
-CPPCHECK_LOG=/tmp/cppcheck.log
 CPPCHECK_ARGS="$CPPCHECK_ARGS $CPPCHECK_FILES"
+CPPCHECK_LOG=$CPPCHECK_TMP/cppcheck.log
 
 status "pending" "Running cppcheck with args $CPPCHECK_ARGS"
 cppcheck $CPPCHECK_ARGS 2>&1 | tee $CPPCHECK_LOG
 
 ERRORS=`cat $CPPCHECK_LOG | grep "(error)" | wc -l`
 WARNINGS=`cat $CPPCHECK_LOG | grep "(warning)" | wc -l`
+DESCRIPTION="Found $ERRORS error`test $ERRORS -eq 1 || echo s` and $WARNINGS warning`test $WARNINGS -eq 1 || echo s`"
 
 if [ $ERRORS -eq 0 ] && [ $WARNINGS -eq 0 ]; then
-  status "success" "Found $ERRORS error`test $ERRORS -eq 1 || echo s` and $WARNINGS warning`test $WARNINGS -eq 1 || echo s`"
+  status "success" "$DESCRIPTION"
 else
-  status "failure" "Found $ERRORS error`test $ERRORS -eq 1 || echo s` and $WARNINGS warning`test $WARNINGS -eq 1 || echo s`"
+  status "failure" "$DESCRIPTION"
 fi
