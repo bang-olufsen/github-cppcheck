@@ -2,7 +2,7 @@
 
 [![License](https://img.shields.io/badge/license-MIT_License-blue.svg?style=flat)](LICENSE)
 
-Shell script for running the [Cppcheck](http://cppcheck.sourceforge.net) static code analysis tool for C/C++ source files. The script can either be executed from your build script or as part of GitHub pull requests. Currently only [Shippable](http://www.shippable.com) CI is supported.
+Shell script for running the [Cppcheck](http://cppcheck.sourceforge.net) static code analysis tool for C/C++ source files. The script can either be executed from your build script or as part of GitHub pull requests with status updates. This makes it possible to add cppcheck as a required CI step. Currently only [Shippable](http://www.shippable.com) CI is supported for e.g. linking to build logs.
 
 Input can either be a directory (e.g. ".") or specific files. For pull requests the special "diff" command can be parsed as argument to check only the changed files.
 
