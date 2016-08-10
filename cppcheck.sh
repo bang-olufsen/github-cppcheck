@@ -29,7 +29,7 @@ status () {
       
       BUGS=`expr $ERRORS + $WARNINGS`
       wget -O $CPPCHECK_TMP/cppcheck_${REPO_NAME}_${BRANCH}.svg https://img.shields.io/badge/cppcheck-"$BUGS"_bugs-$COLOR.svg 1>/dev/null 2>&1
-      curl -H "Authorization: Bearer $DROPBOX_TOKEN" https://api-content.dropbox.com/1/files_put/auto/ -T /tmp/cppcheck_${REPO_NAME}_${BRANCH}.svg 1>/dev/null 2>&1
+      curl -H "Authorization: Bearer $DROPBOX_TOKEN" https://api-content.dropbox.com/1/files_put/auto/ -T $CPPCHECK_TMP/cppcheck_${REPO_NAME}_${BRANCH}.svg 1>/dev/null 2>&1
     fi
   fi
   
