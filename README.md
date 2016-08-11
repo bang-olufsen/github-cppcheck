@@ -10,7 +10,7 @@ Input can either be a directory (e.g. ".") or specific files. For pull requests 
 
 When all files are checked (e.g. as part of nightly builds) the Cppcheck badge is updated for the particular repository and branch. The badge is afterwards uploaded to [Dropbox](http://www.dropbox.com). For displaying the badge on e.g. your README.md copy the Dropbox link to the image and replace www.dropbox.com with dl.dropboxusercontent.com. The color of the badge will be red in case of errors, yellow in case of only warnings and green if no bugs have been found.
 
-![](https://raw.githubusercontent.com/bang-olufsen/github-cppcheck/master/images/cppcheck_green.svg) ![](https://raw.githubusercontent.com/bang-olufsen/github-cppcheck/master/images/cppcheck_yellow.svg) ![](https://raw.githubusercontent.com/bang-olufsen/github-cppcheck/master/images/cppcheck_red.svg)
+![](https://raw.githubusercontent.com/bang-olufsen/github-cppcheck/master/images/cppcheck_green.png) ![](https://raw.githubusercontent.com/bang-olufsen/github-cppcheck/master/images/cppcheck_yellow.png) ![](https://raw.githubusercontent.com/bang-olufsen/github-cppcheck/master/images/cppcheck_red.png)
 
 False positives can be suppressed using the cppcheck.txt file which must be located in the directory from where the script is executed. You can run the shell script directly from GitHub using e.g.:
 
