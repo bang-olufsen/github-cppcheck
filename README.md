@@ -4,6 +4,8 @@
 
 Shell script for running the [Cppcheck](http://cppcheck.sourceforge.net) static code analysis tool for C/C++ source files. The script can either be executed from your build script or as part of GitHub pull requests with status updates (pending, success and failure). This makes it possible to add cppcheck as a required CI step on GitHub. Currently only [Shippable](http://www.shippable.com) CI is supported for e.g. linking to build logs.
 
+[](https://github.com/bang-olufsen/github-cppcheck/images/cppcheck.png)
+
 Input can either be a directory (e.g. ".") or specific files. For pull requests the special "diff" command can be parsed as argument to check only the changed files.
 
 When all files are checked (e.g. as part of nightly builds) the Cppcheck badge is updated for the particular repository and branch. The badge is afterwards uploaded to [Dropbox](http://www.dropbox.com). For displaying the badge on e.g. your README.md copy the Dropbox link to the image and replace www.dropbox.com with dl.dropboxusercontent.com.
