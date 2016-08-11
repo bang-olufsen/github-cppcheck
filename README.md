@@ -4,7 +4,7 @@
 
 Shell script for running the [Cppcheck](http://cppcheck.sourceforge.net) static code analysis tool for C/C++ source files. The script can either be executed from your build script or as part of GitHub pull requests with status updates (pending, success and failure). This makes it possible to add cppcheck as a required CI step on GitHub. Currently only [Shippable](http://www.shippable.com) CI is supported for e.g. linking to build logs.
 
-[](https://github.com/bang-olufsen/github-cppcheck/images/cppcheck.png)
+![](https://raw.githubusercontent.com/bang-olufsen/github-cppcheck/master/images/cppcheck.png)
 
 Input can either be a directory (e.g. ".") or specific files. For pull requests the special "diff" command can be parsed as argument to check only the changed files.
 
