@@ -25,7 +25,6 @@ status () {
         fi
       fi
       
-      BUGS=`expr $ERRORS + $WARNINGS`
       BADGE_TEXT=$BUGS"_bug"`test $BUGS -eq 1 || echo s`
       wget -O /tmp/cppcheck_${REPO_NAME}_${BRANCH}.svg https://img.shields.io/badge/cppcheck-$BADGE_TEXT-$BADGE_COLOR.svg 1>/dev/null 2>&1
       curl -H "Authorization: Bearer $DROPBOX_TOKEN" https://api-content.dropbox.com/1/files_put/auto/ -T /tmp/cppcheck_${REPO_NAME}_${BRANCH}.svg 1>/dev/null 2>&1
@@ -45,6 +44,7 @@ status "pending" "Running cppcheck with args $CPPCHECK_ARGS $FILES"
 LOG=/tmp/cppcheck.log
 cppcheck $CPPCHECK_ARGS $FILES 2>&1 | tee $LOG
 
+BUGS=`cat $LOG | wc -l`
 ERRORS=`cat $LOG | grep "(error)" | wc -l`
 WARNINGS=`cat $LOG | grep "(warning)" | wc -l`
 DESCRIPTION="Found $ERRORS error`test $ERRORS -eq 1 || echo s` and $WARNINGS warning`test $WARNINGS -eq 1 || echo s`"
