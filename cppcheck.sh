@@ -9,8 +9,8 @@ CPPCHECK_ARGS=${CPPCHECK_ARGS:="--enable=warning --suppressions-list=cppcheck.tx
 
 status () {
   if [ "$SHIPPABLE" = "true" ]; then
-    # Limit the description to 100 characters even though GitHub supports up to 140 characters
     if [ "$IS_PULL_REQUEST" = "true" ]; then
+      # Limit the description to 100 characters even though GitHub supports up to 140 characters
       DESCRIPTION=`echo $2 | cut -b -100`
       DATA="{ \"state\": \"$1\", \"target_url\": \"$BUILD_URL\", \"description\": \"$DESCRIPTION\", \"context\": \"cppcheck\"}"
       GITHUB_API="https://api.github.com/repos/$REPO_FULL_NAME/statuses/$COMMIT"
