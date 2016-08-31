@@ -38,7 +38,7 @@ status () {
 
 FILES=$*
 if [ "$1" = "diff" ]; then
-  FILES=`git diff --name-only origin/$BRANCH | grep -e '\.h$' -e '\hpp$' -e '\.c$' -e '\.cc$' -e '\cpp$' -e '\.cxx$' | xargs`
+  FILES=`git diff --name-only --diff-filter ACMRTUXB origin/$BRANCH | grep -e '\.h$' -e '\hpp$' -e '\.c$' -e '\.cc$' -e '\cpp$' -e '\.cxx$' | xargs`
 fi
 
 status "pending" "Running cppcheck with args $CPPCHECK_ARGS $FILES"
