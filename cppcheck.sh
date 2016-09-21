@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-# CPPCHECK_TOKEN is a GitHub private access token configured for repo:status scope
+# GITHUB_TOKEN is a GitHub private access token configured for repo:status scope
 # DROPBOX_TOKEN is an access token for the Dropbox API
 
 BRANCH=${BRANCH:=develop}
@@ -14,7 +14,7 @@ status () {
       DESCRIPTION=`echo $2 | cut -b -100`
       DATA="{ \"state\": \"$1\", \"target_url\": \"$BUILD_URL\", \"description\": \"$DESCRIPTION\", \"context\": \"cppcheck\"}"
       GITHUB_API="https://api.github.com/repos/$REPO_FULL_NAME/statuses/$COMMIT"
-      curl -H "Content-Type: application/json" -H "Authorization: token $CPPCHECK_TOKEN" -H "User-Agent: bangolufsen/cppcheck" -X POST -d "$DATA" $GITHUB_API 1>/dev/null 2>&1
+      curl -H "Content-Type: application/json" -H "Authorization: token $GITHUB_TOKEN" -H "User-Agent: bangolufsen/cppcheck" -X POST -d "$DATA" $GITHUB_API 1>/dev/null 2>&1
     fi
 
     # Only update coverage badge if we are analyzing all files
