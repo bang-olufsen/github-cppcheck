@@ -18,7 +18,7 @@ status () {
     fi
 
     # Only update coverage badge if we are analyzing all files
-    if [ "$FILES" = "." ] && [ "$1" != "pending" ]; then
+    if [ "$FILES" != "diff" ] && [ "$1" != "pending" ]; then
       BADGE_COLOR=red
       if [ $ERRORS -eq 0 ]; then
         BADGE_COLOR=yellow
@@ -36,15 +36,19 @@ status () {
   echo $2
 }
 
-FILES=$*
-if [ "$1" = "diff" ]; then
+
+ARGS=("$@")
+FILES=${ARGS[${#ARGS[@]}-1]}
+unset "ARGS[${#ARGS[@]}-1]"
+
+if [ "$FILES" = "diff" ]; then
   FILES=`git diff --name-only --diff-filter ACMRTUXB origin/$BRANCH | grep -e '\.h$' -e '\hpp$' -e '\.c$' -e '\.cc$' -e '\cpp$' -e '\.cxx$' | xargs`
 fi
 
-status "pending" "Running cppcheck with args $CPPCHECK_ARGS $FILES"
+status "pending" "Running cppcheck with args $CPPCHECK_ARGS ${ARGS[*]} $FILES"
 
 LOG=/tmp/cppcheck.log
-cppcheck $CPPCHECK_ARGS $FILES 2>&1 | tee $LOG
+cppcheck $CPPCHECK_ARGS ${ARGS[*]} $FILES 2>&1 | tee $LOG
 
 BUGS=`cat $LOG | wc -l`
 ERRORS=`cat $LOG | grep "(error)" | wc -l`
