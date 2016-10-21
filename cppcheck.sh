@@ -18,7 +18,7 @@ status () {
     fi
 
     # Only update coverage badge if we are analyzing all files
-    if [ "$FILES" != "diff" ] && [ "$1" != "pending" ]; then
+    if [ "$FILES" = "." ] && [ "$1" != "pending" ]; then
       BADGE_COLOR=red
       if [ $ERRORS -eq 0 ]; then
         BADGE_COLOR=yellow
