@@ -54,7 +54,7 @@ if [ "$FILES" = "diff" ]; then
 fi
 
 status "pending" "Running cppcheck with args $CPPCHECK_ARGS ${ARGS[*]} $FILES"
-cppcheck $CPPCHECK_ARGS "${ARGS[*]}" "$FILES" 2>&1 | tee /tmp/cppcheck.log
+cppcheck $CPPCHECK_ARGS "${ARGS[*]}" $FILES 2>&1 | tee /tmp/cppcheck.log
 
 ERRORS=$(grep -c "(error)" /tmp/cppcheck.log || true)
 WARNINGS=$(grep -c "(warning)" /tmp/cppcheck.log || true)
