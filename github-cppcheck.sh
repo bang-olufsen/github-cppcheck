@@ -10,7 +10,9 @@ CPPCHECK_ARGS=${CPPCHECK_ARGS:="--enable=warning --suppressions-list=cppcheck.tx
 if [ "$GITHUB_ACTIONS" = "true" ]; then
   REPO_NAME=$(basename "$GITHUB_REPOSITORY")
   REPO_FULL_NAME="$GITHUB_REPOSITORY"
-  PULL_REQUEST=$(echo "$GITHUB_REF" | cut -d '/' -f3)
+  if [ "$(echo "$GITHUB_REF" | cut -d '/' -f3)" != "master" ]; then
+    PULL_REQUEST="true"
+  fi
 fi
 
 status () {
