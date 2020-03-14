@@ -4,7 +4,7 @@ set -e
 # GITHUB_TOKEN is a GitHub private access token configured for repo:status scope
 # DROPBOX_TOKEN is an access token for the Dropbox API
 
-BRANCH=${BRANCH:=master}
+BRANCH=${BRANCH:="origin/master"}
 CPPCHECK_ARGS=${CPPCHECK_ARGS:="--enable=warning --suppressions-list=cppcheck.txt --template='[{file}:{line}]:({severity}),{id},{message}' --force -q -j $(nproc)"}
 
 if [ "$GITHUB_ACTIONS" = "true" ]; then
@@ -22,7 +22,7 @@ status () {
       DATA="{ \"state\": \"$1\", \"description\": \"$DESCRIPTION\", \"context\": \"github / cppcheck\"}"
       PULL_REQUEST_STATUS=$(curl -s -H "Content-Type: application/json" -H "Authorization: token $GITHUB_TOKEN" -H "User-Agent: $REPO_FULL_NAME" -X GET "https://api.github.com/repos/$REPO_FULL_NAME/pulls/$PULL_REQUEST")
       STATUSES_URL=$(echo "$PULL_REQUEST_STATUS" | jq -r '.statuses_url')
-      curl -H "Content-Type: application/json" -H "Authorization: token $GITHUB_TOKEN" -H "User-Agent: $REPO_FULL_NAME" -X POST -d "$DATA" "$STATUSES_URL" 1>/dev/null
+      curl -H "Content-Type: application/json" -H "Authorization: token $GITHUB_TOKEN" -H "User-Agent: $REPO_FULL_NAME" -X POST -d "$DATA" "$STATUSES_URL" 1>/dev/null 2>&1
     fi
 
     if [ "$FILES" = "." ] && [ "$1" != "pending" ]; then
